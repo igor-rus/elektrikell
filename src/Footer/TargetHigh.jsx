@@ -4,7 +4,19 @@ import Col from "react-bootstrap/Col";
 const TargetHigh = () => {
   return (
     <Row>
-      <Col>Target High</Col>
+      <Col>
+        <span>In the the near future</span><br></br>
+        <b>There are no peak consumption hours</b>
+        <div>
+          If you want to consume at the most reasonable time, select "Low price"
+          from above toggle and find the best time for it.
+        </div>
+        <span>
+          We recommend reducing electricity consumption during peak hours to
+          contribute to Europe's common goal of reducing electricity consumption
+          by -5% during peak hours and reducing natural gas demand. <a href="#">Read closer</a>
+        </span>
+      </Col>
     </Row>
   );
 };
