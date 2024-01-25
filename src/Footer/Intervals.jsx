@@ -1,10 +1,12 @@
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const Intervals = () => {
+const Intervals = ({ intervalOptions }) => {
   return (
     <Row>
-      <Col></Col>
+      {intervalOptions.durations.map((duration, index) => (
+        <Col key={index}>{duration} {intervalOptions.timeUnit}</Col>
+      ))}
     </Row>
   );
 };
