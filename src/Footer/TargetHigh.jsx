@@ -14,7 +14,7 @@ const TargetHigh = () => {
         <span>
           We recommend reducing electricity consumption during peak hours to
           contribute to Europe's common goal of reducing electricity consumption
-          by -5% during peak hours and reducing natural gas demand. <a href="#">Read closer</a>
+          by -5% during peak hours and reducing natural gas demand. <a href="https://www.consilium.europa.eu/et/infographics/eu-measures-to-cut-down-energy-bills/">Read closer</a>
         </span>
       </Col>
     </Row>
