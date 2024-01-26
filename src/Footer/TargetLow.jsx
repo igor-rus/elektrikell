@@ -4,10 +4,9 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Intervals from "./Intervals";
-import { intervalOptions } from "./configuration";
 import CountdownTimer from "./CountdownTimer";
 
-const TargetLow = () => {
+const TargetLow = (props) => {
   const [nightConsumption, setNightConsumption] = useState(false);
   const bestTimeToConsume = new Date();
   bestTimeToConsume.setDate(bestTimeToConsume.getDate() + 1);
@@ -28,7 +27,7 @@ const TargetLow = () => {
       </Row>
       <Row>
         <Col>
-          <Intervals intervalOptions={intervalOptions} />
+          <Intervals {...props} />
         </Col>
       </Row>
       <Row>
