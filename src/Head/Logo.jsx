@@ -1,7 +1,9 @@
-import Col from "react-bootstrap/Col";
+import { Image } from "react-bootstrap";
 
-const Logo = () => {
-  return <Col></Col>;
+const Logo = ({width, height}) => {
+  return (
+      <Image src="https://cdn.icon-icons.com/icons2/317/PNG/512/lightning-icon_34399.png" width={width} height={height} roundedCircle />
+  );
 };
 
 export default Logo;
