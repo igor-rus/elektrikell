@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "./App.scss";
 import Container from "react-bootstrap/Container";
-import Body from "./Body";
-import Head, { DEFAULT_ACTIVE_PRICE_BUTTON_ID } from "./Head";
-import Footer from "./Footer";
-import LeftSideBar from "./LeftSideBar";
+import Body from "./components/Body";
+import Head, { DEFAULT_ACTIVE_PRICE_BUTTON_ID } from "./components/Head";
+import Footer from "./components/Footer";
+import LeftSideBar from "./components/LeftSideBar";
 
 function App() {
   const [activePrice, setActivePrice] = useState(DEFAULT_ACTIVE_PRICE_BUTTON_ID);
