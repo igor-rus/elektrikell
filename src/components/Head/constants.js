@@ -23,7 +23,28 @@ export const PRICE_BUTTONS = [
   },
 ];
 
+export const REGIONS = [
+  {
+    name: 'Estonia',
+    id: 'EE'
+  },
+  {
+    name: 'Latvia',
+    id: 'LV'
+  },
+  {
+    name: 'Lithuania',
+    id: 'LT'
+  },
+  {
+    name: 'Finland',
+    id: 'FI'
+  }
+];
+
 export const DEFAULT_ACTIVE_PRICE_BUTTON_ID = LOW;
+
+export const DEFAULT_REGION_ID = 'EE';
 
 
 

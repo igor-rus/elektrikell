@@ -11,20 +11,17 @@ import {
   Line,
   ResponsiveContainer
 } from "recharts";
-import {getMarketPrices} from "../../services/apiService";
+import {getMarketPricesForPeriod} from "../../services/nordPoolPriceService";
 import {chartDataConverter} from "../../utils";
 
 const Body = () => {
   const [marketPriceData, setMarketPriceData] = useState(null);
 
-
   useEffect(() => {
-    getMarketPrices().then(({data}) => {
-      let convertedChart = chartDataConverter(data.ee);
-      setMarketPriceData(convertedChart)
+    getMarketPricesForPeriod().then(({data}) => {
+      setMarketPriceData(chartDataConverter(data.ee))
     });
   }, [])
-
 
   return (
     <Row>
@@ -33,7 +30,7 @@ const Body = () => {
           <LineChart data={marketPriceData}>
             <CartesianGrid strokeDasharray="3 3"/>
             <XAxis dataKey="hour"/>
-            <YAxis/>
+            <YAxis type="number" domain={[0, 'dataMax + 5']}/>
             <Tooltip/>
             <Line type="monotone" dataKey="price" stroke="#8884d8"/>
           </LineChart>

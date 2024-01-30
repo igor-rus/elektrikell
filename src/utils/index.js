@@ -1,1 +1,1 @@
-export { default as chartDataConverter } from "./chartDataConverter";
+export { default as chartDataConverter } from "./formatChartDataPoints";
