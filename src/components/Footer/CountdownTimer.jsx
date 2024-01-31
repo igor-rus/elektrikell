@@ -1,7 +1,6 @@
-const CountdownTimer = ({leftUntil}) => {
-    
-    //a placeholder for countdown timer
-    return ( <p>{leftUntil.toString()}</p> );
+const CountdownTimer = () => {
+
+    return(<p>OO:00:00</p>)
 }
  
 export default CountdownTimer;
