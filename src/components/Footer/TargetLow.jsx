@@ -36,7 +36,7 @@ const TargetLow = (props) => {
             The best time for this is from 11:00 p.m. to 1:00 a.m., ETA for
             which is:
           </span>
-          <CountdownTimer leftUntil={bestTimeToConsume} />
+          <CountdownTimer />
         </Col>
       </Row>
       <Row>
