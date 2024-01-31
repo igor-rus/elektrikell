@@ -12,5 +12,12 @@ export const getMarketPrices = async() => {
     const response =  await fetch(`${apiBaseUrl}/nps/price?${data}`);
 
     return await response.json();
+}
 
+export const getCurrentPrice = async() => {
+    const countyCode = 'EE'
+
+    const response = await fetch(`${apiBaseUrl}/nps/price/${countyCode}/current`);
+
+    return await response.json();
 }
