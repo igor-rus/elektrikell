@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import {convertToApiDateFormat, convertToDatepickerFormat} from "../../utils/DateFormatter";
+import {convertToApiDateFormat, convertToDatepickerFormat} from "../../utils/dates";
 
 const SearchForm = ({handleClose, from, until, setFrom, setUntil}) => {
   const handleFormSubmit = (e) => {

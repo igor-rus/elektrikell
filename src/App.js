@@ -5,7 +5,7 @@ import Body from "./components/Body";
 import Head, {DEFAULT_ACTIVE_PRICE_BUTTON_ID} from "./components/Head";
 import Footer from "./components/Footer";
 import LeftSideBar from "./components/LeftSideBar";
-import {getDefaultFrom, getDefaultUntil} from "./utils/DateFormatter";
+import {getDefaultFrom, getDefaultUntil} from "./utils/dates";
 
 function App() {
   const [activePrice, setActivePrice] = useState(DEFAULT_ACTIVE_PRICE_BUTTON_ID);
