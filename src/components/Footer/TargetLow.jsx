@@ -4,12 +4,10 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Intervals from "./Intervals";
-import CountdownTimer from "./CountdownTimer";
+import InfoPanel from "./InfoPanel";
 
 const TargetLow = (props) => {
   const [nightConsumption, setNightConsumption] = useState(false);
-  const bestTimeToConsume = new Date();
-  bestTimeToConsume.setDate(bestTimeToConsume.getDate() + 1);
 
   return (
     <>
@@ -32,11 +30,7 @@ const TargetLow = (props) => {
       </Row>
       <Row>
         <Col>
-          <span>
-            The best time for this is from 11:00 p.m. to 1:00 a.m., ETA for
-            which is:
-          </span>
-          <CountdownTimer />
+          <InfoPanel {...props}/>
         </Col>
       </Row>
       <Row>
