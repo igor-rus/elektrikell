@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import { getMarketPrices } from "../../services/apiService";
 import { chartDataConverter } from "../../utils";
-import { currentTimestamp } from "../../utils/DateFormatter";
+import { currentTimestamp } from "../../utils/dates";
 
 const Body = ({from, until}) => {
   const [marketPriceData, setMarketPriceData] = useState(null);
