@@ -5,23 +5,28 @@ import Col from "react-bootstrap/Col";
 import {
   LineChart,
   CartesianGrid,
+  Dot,
   XAxis,
   YAxis,
   Tooltip,
   Line,
   ResponsiveContainer,
-  Dot
+  ReferenceArea,
 } from "recharts";
 import { getMarketPrices } from "../../services/apiService";
 import { chartDataConverter } from "../../utils";
 import { currentTimestamp } from "../../utils/dates";
+import { getLowestPriceInterval } from "../../utils/buildIntervals";
+import lodash from "lodash";
 
-const Body = ({from, until}) => {
-  const [marketPriceData, setMarketPriceData] = useState(null);
+const Body = ({activeHour, from, until}) => {
+  const [marketPriceData, setMarketPriceData] = useState([]);
+  const [x1, setX1] = useState(0);
+  const [x2, setX2] = useState(0);
 
   const renderDot = (line) => {
     const {
-      payload: { timestamp },
+      payload: {timestamp},
     } = line;
 
     return timestamp === currentTimestamp() ? (
@@ -33,10 +38,22 @@ const Body = ({from, until}) => {
 
   useEffect(() => {
     getMarketPrices(from, until).then(({data}) => {
-      let convertedChart = chartDataConverter(data.ee);
-      setMarketPriceData(convertedChart)
+      const priceData = chartDataConverter(data.ee);
+
+      setMarketPriceData(priceData);
     });
-  }, [from, until])
+  }, [from, until]);
+
+
+  useEffect(() => {
+    const lowPriceIntervals = getLowestPriceInterval(marketPriceData, activeHour);
+
+    if (lowPriceIntervals.length) {
+      setX1(lowPriceIntervals[0].index);
+      setX2(lodash.last(lowPriceIntervals).index);
+    }
+
+  }, [activeHour, marketPriceData]);
 
 
   return (
@@ -49,6 +66,7 @@ const Body = ({from, until}) => {
             <YAxis/>
             <Tooltip/>
             <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={renderDot}/>
+            <ReferenceArea x1={x1} x2={x2} stroke="red" strokeOpacity={0.3}/>
           </LineChart>
         </ResponsiveContainer>
       </Col>
