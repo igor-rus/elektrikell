@@ -7,3 +7,4 @@ export const convertToDatepickerFormat = (dateTime) => moment(dateTime).format("
 export const convertToApiDateFormat = (dateTime) => moment(dateTime).format();
 
 export const currentTimestamp = () => moment().minutes(0).seconds(0).unix();
+export const addHourToCurrentTimestampInMl = () => +moment().add(1, 'hour');
