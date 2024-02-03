@@ -11,7 +11,8 @@ import {
   Tooltip,
   Line,
   ResponsiveContainer,
-  ReferenceArea, ReferenceLine,
+  ReferenceArea,
+  ReferenceLine,
 } from "recharts";
 import { getMarketPrices } from "../../services/apiService";
 import { chartDataConverter } from "../../utils";

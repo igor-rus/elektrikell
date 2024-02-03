@@ -25,14 +25,14 @@ const findSectorIndexes = (initialRange, sector) => {
   });
 }
 
-export const getLowestPriceInterval = function (data, k) {
+export const getLowestPriceInterval = function (data, duration) {
   const futureData = removePast(data);
   let lowestAverageSeenSoFar = Infinity;
   let bestWindow = {};
 
-  for (let i = 0, j = i + k; i < futureData.length - k; i++, j++) {
+  for (let i = 0, j = i + duration; i < futureData.length - duration; i++, j++) {
     const slidingWindow = futureData.slice(i, j);
-    const average = calculateAverage(slidingWindow, k);
+    const average = calculateAverage(slidingWindow, duration);
     if (average < lowestAverageSeenSoFar) {
       bestWindow = {
         window: slidingWindow,
