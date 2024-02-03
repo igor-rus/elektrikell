@@ -1,4 +1,5 @@
 import moment from "moment";
+import lodash from "lodash";
 
 export const removePast = (data) => {
   return data.filter(({timestamp}) => {
@@ -6,31 +7,39 @@ export const removePast = (data) => {
   })
 };
 
-export const getLowestPriceInterval = (data, interval) => {
-  let minimum = Infinity;
-  let result = [];
-  const futureData = removePast(data);
+const calculateAverage = (window, k) => {
+  let sum = window.reduce((acc, {price}) => acc + Number.parseFloat(price), 0);
+  return (sum / k).toFixed(2);
+};
 
-  futureData.forEach((_, i) => {
-    const dataInterval = futureData.slice(i, i + interval + 1);
-
-    if (dataInterval.length < interval) {
-      return;
-    }
-    const sumInterval = dataInterval.reduce((acc, {price}) => {
-      return acc + Number.parseFloat(price);
-    }, 0);
-
-    if (minimum > sumInterval) {
-      minimum = sumInterval;
-      result = dataInterval;
-    }
-  });
-
-  return result.map((r) => {
+const findSectorIndexes = (initialRange, sector) => {
+  if (!initialRange || lodash.isEmpty(sector)) {
+    return;
+  }
+  return sector.window.map((r) => {
     return {
-      ...result,
-      index: data.findIndex(({timestamp}) => timestamp === r.timestamp),
+      ...r,
+      index: initialRange.findIndex(({timestamp}) => timestamp === r.timestamp),
+      average: sector.average
     }
   });
+}
+
+export const getLowestPriceInterval = function (data, k) {
+  const futureData = removePast(data);
+  let lowestAverageSeenSoFar = Infinity;
+  let bestWindow = {};
+
+  for (let i = 0, j = i + k; i < futureData.length - k; i++, j++) {
+    const slidingWindow = futureData.slice(i, j);
+    const average = calculateAverage(slidingWindow, k);
+    if (average < lowestAverageSeenSoFar) {
+      bestWindow = {
+        window: slidingWindow,
+        average: average
+      };
+    }
+    lowestAverageSeenSoFar = Math.min(average, lowestAverageSeenSoFar);
+  }
+  return findSectorIndexes(data, bestWindow);
 }
