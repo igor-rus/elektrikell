@@ -1,23 +1,30 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Badge from 'react-bootstrap/Badge';
-import {PRICE_BUTTONS, BADGES} from "./constants";
-import {getCurrentPrice} from "../../services/apiService";
-import {mwToKw, addVAT} from "../../utils/priceFormatter";
+import { PRICE_BUTTONS, BADGES } from "./constants";
+import { getCurrentPrice } from "../../services/apiService";
+import { mwToKw, addVAT } from "../../utils/priceFormatter";
+import { ERROR_MESSAGE } from "./constants";
 
-const Info = ({activePrice, setActivePrice}) => {
+const Info = ({activePrice, setActivePrice, setErrorMessage}) => {
 
   const [currentPrice, setCurrentPrice] = useState(0);
 
   useEffect(() => {
     (async () => {
-      const {data} = await getCurrentPrice();
-      setCurrentPrice(addVAT(mwToKw(data[0].price), "ee"));
-    })();
-  }, [])
+      try {
+        const {data, success} = await getCurrentPrice();
 
+        if (!success) throw new Error();
+
+        setCurrentPrice(addVAT(mwToKw(data[0].price), "ee"));
+      } catch {
+        setErrorMessage(ERROR_MESSAGE);
+      }
+    })();
+  }, [setErrorMessage])
 
   return (
     <>
