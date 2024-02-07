@@ -18,12 +18,14 @@ import { getMarketPrices } from "../../services/apiService";
 import { chartDataConverter } from "../../utils";
 import { currentTimestamp } from "../../utils/dates";
 import { getLowestPriceInterval } from "../../utils/buildIntervals";
+import {getAveragePrice} from "../../utils/math";
 import lodash from "lodash";
 
 const Body = ({activeHour, from, until}) => {
   const [marketPriceData, setMarketPriceData] = useState([]);
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
+  //eslint-disable-next-line
   const [average, setAverage] = useState(0);
 
   const renderDot = (line) => {
@@ -68,7 +70,7 @@ const Body = ({activeHour, from, until}) => {
             <YAxis/>
             <Tooltip/>
             <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={renderDot}/>
-            <ReferenceLine segment={[{ x: x1, y: average },{ x: x2, y: average }]} stroke="red" strokeDasharray="3 3" />
+            <ReferenceLine y={getAveragePrice(marketPriceData)} stroke="red" strokeDasharray="3 3" />
             <ReferenceArea x1={x1} x2={x2} stroke="green" strokeOpacity={0.1}/>
           </LineChart>
         </ResponsiveContainer>
