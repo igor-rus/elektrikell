@@ -19,9 +19,12 @@ import { chartDataConverter } from "../../utils";
 import { currentTimestamp } from "../../utils/dates";
 import { getLowestPriceInterval } from "../../utils/buildIntervals";
 import { getAveragePrice } from "../../utils/math";
+
+import { ERROR_MESSAGE } from "./constants";
+
 import lodash from "lodash";
 
-const Body = ({activeHour, from, until}) => {
+const Body = ({activeHour, from, until, setErrorMessage, setBestUntil}) => {
   const [marketPriceData, setMarketPriceData] = useState([]);
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
@@ -49,12 +52,13 @@ const Body = ({activeHour, from, until}) => {
 
 
   useEffect(() => {
-    getMarketPrices(from, until).then(({data}) => {
-      const priceData = chartDataConverter(data.ee);
+    getMarketPrices(from, until).then(({data, success}) => {
+      if(!success) throw new Error();
 
+      const priceData = chartDataConverter(data.ee);
       setMarketPriceData(priceData);
-    });
-  }, [from, until]);
+    }).catch(() => {setErrorMessage(ERROR_MESSAGE)});
+  }, [from, until, setErrorMessage]);
 
 
   useEffect(() => {
@@ -63,10 +67,11 @@ const Body = ({activeHour, from, until}) => {
     if (lowPriceIntervals) {
       setX1(lowPriceIntervals[0].index);
       setX2(lodash.last(lowPriceIntervals).index + 1);
-      setAverage(lowPriceIntervals[0].average)
+      //setAverage(lowPriceIntervals[0].average)
+      setBestUntil(lowPriceIntervals[0].timestamp)
     }
 
-  }, [activeHour, marketPriceData]);
+  }, [activeHour, marketPriceData, setBestUntil]);
 
   return (
     <Row>
