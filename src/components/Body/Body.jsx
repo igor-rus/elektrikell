@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -18,7 +18,7 @@ import { getMarketPrices } from "../../services/apiService";
 import { chartDataConverter } from "../../utils";
 import { currentTimestamp } from "../../utils/dates";
 import { getLowestPriceInterval } from "../../utils/buildIntervals";
-import {getAveragePrice} from "../../utils/math";
+import { getAveragePrice } from "../../utils/math";
 import lodash from "lodash";
 
 const Body = ({activeHour, from, until}) => {
@@ -28,7 +28,14 @@ const Body = ({activeHour, from, until}) => {
   //eslint-disable-next-line
   const [average, setAverage] = useState(0);
 
-  const renderDot = (line) => {
+  const averagePrice = useMemo(() => {
+    if (marketPriceData) {
+      return getAveragePrice(marketPriceData)
+    }
+  }, [marketPriceData]);
+
+
+  const renderDot = useCallback((line) => {
     const {
       payload: {timestamp},
     } = line;
@@ -38,7 +45,8 @@ const Body = ({activeHour, from, until}) => {
         <div></div>
       </Dot>
     ) : null;
-  };
+  }, []);
+
 
   useEffect(() => {
     getMarketPrices(from, until).then(({data}) => {
@@ -70,7 +78,7 @@ const Body = ({activeHour, from, until}) => {
             <YAxis/>
             <Tooltip/>
             <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={renderDot}/>
-            <ReferenceLine y={getAveragePrice(marketPriceData)} stroke="red" strokeDasharray="3 3" />
+            <ReferenceLine y={averagePrice} stroke="red" strokeDasharray="3 3"/>
             <ReferenceArea x1={x1} x2={x2} stroke="green" strokeOpacity={0.1}/>
           </LineChart>
         </ResponsiveContainer>
