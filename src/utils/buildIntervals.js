@@ -1,9 +1,9 @@
-import moment from "moment";
 import lodash from "lodash";
+import { currentTimestamp } from "./dates";
 
 export const removePast = (data) => {
   return data.filter(({timestamp}) => {
-    return moment.unix(timestamp).isAfter(moment())
+    return timestamp >= currentTimestamp();
   })
 };
 
