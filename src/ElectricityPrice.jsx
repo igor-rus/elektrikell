@@ -1,4 +1,5 @@
-import {useState} from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./App.scss";
 import Container from "react-bootstrap/Container";
 import Body from "./components/Body";
@@ -8,7 +9,9 @@ import Footer from "./components/Footer";
 import LeftSideBar from "./components/LeftSideBar";
 import {getDefaultFrom, getDefaultUntil} from "./utils/dates";
 
-function App() {
+function ElectricityPrice() {
+  const params = useParams();
+
   const [activePrice, setActivePrice] = useState(DEFAULT_ACTIVE_PRICE_BUTTON_ID);
   const [activeHour, setActiveHour] = useState(1);
   const [showSideBar, setShowSideBar] = useState(false);
@@ -19,6 +22,12 @@ function App() {
 
   const handleSideBarClose = () => setShowSideBar(false);
   const handleSideBarOpen = () => setShowSideBar(true);
+
+
+  useEffect(() => {
+    if(params.hours) setActiveHour(+params.hours)
+  }, [params.hours]);
+
 
   return (
     <Container>
@@ -48,4 +57,4 @@ function App() {
   );
 }
 
-export default App;
+export default ElectricityPrice;
