@@ -23,13 +23,13 @@ import { getAveragePrice } from "../../utils/math";
 import { ERROR_MESSAGE } from "./constants";
 
 import lodash from "lodash";
+import LoadingSpinner from "../Spinner";
 
 const Body = ({activeHour, from, until, setErrorMessage, setBestUntil}) => {
   const [marketPriceData, setMarketPriceData] = useState([]);
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
-  //eslint-disable-next-line
-  const [average, setAverage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const averagePrice = useMemo(() => {
     if (marketPriceData) {
@@ -52,12 +52,17 @@ const Body = ({activeHour, from, until, setErrorMessage, setBestUntil}) => {
 
 
   useEffect(() => {
+    setLoading(true);
     getMarketPrices(from, until).then(({data, success}) => {
-      if(!success) throw new Error();
+      if (!success) throw new Error();
 
       const priceData = chartDataConverter(data.ee);
       setMarketPriceData(priceData);
-    }).catch(() => {setErrorMessage(ERROR_MESSAGE)});
+    })
+    .catch(() => {
+        setErrorMessage(ERROR_MESSAGE)
+    })
+    .finally(() => setLoading(false));
   }, [from, until, setErrorMessage]);
 
 
@@ -67,7 +72,6 @@ const Body = ({activeHour, from, until, setErrorMessage, setBestUntil}) => {
     if (lowPriceIntervals) {
       setX1(lowPriceIntervals[0].index);
       setX2(lodash.last(lowPriceIntervals).index + 1);
-      //setAverage(lowPriceIntervals[0].average)
       setBestUntil(lowPriceIntervals[0].timestamp)
     }
 
@@ -76,17 +80,19 @@ const Body = ({activeHour, from, until, setErrorMessage, setBestUntil}) => {
   return (
     <Row>
       <Col>
-        <ResponsiveContainer width="100%" height={400}>
-          <LineChart data={marketPriceData}>
-            <CartesianGrid strokeDasharray="3 3"/>
-            <XAxis dataKey="hour" interval={1}/>
-            <YAxis/>
-            <Tooltip/>
-            <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={renderDot}/>
-            <ReferenceLine y={averagePrice} stroke="red" strokeDasharray="3 3"/>
-            <ReferenceArea x1={x1} x2={x2} stroke="green" strokeOpacity={0.1}/>
-          </LineChart>
-        </ResponsiveContainer>
+        {
+          loading ? <LoadingSpinner/> : (<ResponsiveContainer width="100%" height={400}>
+            <LineChart data={marketPriceData}>
+              <CartesianGrid strokeDasharray="3 3"/>
+              <XAxis dataKey="hour" interval={1}/>
+              <YAxis/>
+              <Tooltip/>
+              <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={renderDot}/>
+              <ReferenceLine y={averagePrice} stroke="red" strokeDasharray="3 3"/>
+              <ReferenceArea x1={x1} x2={x2} stroke="green" strokeOpacity={0.1}/>
+            </LineChart>
+          </ResponsiveContainer>)
+        }
       </Col>
     </Row>
   );
