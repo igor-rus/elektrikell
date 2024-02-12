@@ -4,53 +4,33 @@ import "./App.scss";
 import Container from "react-bootstrap/Container";
 import Body from "./components/Body";
 import ErrorModal from "./ErrorModal";
-import Head, {DEFAULT_ACTIVE_PRICE_BUTTON_ID} from "./components/Head";
+import Head from "./components/Head";
 import Footer from "./components/Footer";
 import LeftSideBar from "./components/LeftSideBar";
-import {getDefaultFrom, getDefaultUntil} from "./utils/dates";
+import { useDispatch } from "react-redux";
+import { setActiveHour } from "./services/stateService";
 
 function ElectricityPrice() {
   const params = useParams();
-
-  const [activePrice, setActivePrice] = useState(DEFAULT_ACTIVE_PRICE_BUTTON_ID);
-  const [activeHour, setActiveHour] = useState(1);
   const [showSideBar, setShowSideBar] = useState(false);
-  const [from, setFrom] = useState(getDefaultFrom());
-  const [until, setUntil] = useState(getDefaultUntil());
   const [errorMessage, setErrorMessage] = useState(null);
   const [bestUntil, setBestUntil] = useState(0);
-
   const handleSideBarClose = () => setShowSideBar(false);
   const handleSideBarOpen = () => setShowSideBar(true);
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if(params.hours) setActiveHour(+params.hours)
-  }, [params.hours]);
-
+    if(params.hours) dispatch(setActiveHour(+params.hours))
+  }, [dispatch, params.hours]);
 
   return (
     <Container>
-      <Head activePrice={activePrice} setActivePrice={setActivePrice}
-            handleSideBarOpen={handleSideBarOpen} setErrorMessage={setErrorMessage}/>
-      <Body
-        activeHour={activeHour}
-        from={from}
-        until={until}
-        setErrorMessage={setErrorMessage}
-        setBestUntil={setBestUntil}/>
+      <Head handleSideBarOpen={handleSideBarOpen} setErrorMessage={setErrorMessage}/>
+      <Body setErrorMessage={setErrorMessage} setBestUntil={setBestUntil}/>
       <Footer
-        activePrice={activePrice}
-        activeHour={activeHour}
-        setActiveHour={setActiveHour}
         bestUntil={bestUntil}
       />
-      <LeftSideBar show={showSideBar}
-                   handleClose={handleSideBarClose}
-                   from={from}
-                   until={until}
-                   setFrom={setFrom}
-                   setUntil={setUntil}
+      <LeftSideBar show={showSideBar} handleClose={handleSideBarClose}
       />
       <ErrorModal show={!!errorMessage} handleClose={() => setErrorMessage(null)} errorMessage={errorMessage}/>
     </Container>
