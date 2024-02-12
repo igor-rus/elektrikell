@@ -7,10 +7,13 @@ import { PRICE_BUTTONS, BADGES } from "./constants";
 import { getCurrentPrice } from "../../services/apiService";
 import { mwToKw, addVAT } from "../../utils/priceFormatter";
 import { ERROR_MESSAGE } from "./constants";
+import { useSelector, useDispatch } from "react-redux";
+import { setActivePrice } from "../../services/stateService";
 
-const Info = ({activePrice, setActivePrice, setErrorMessage}) => {
-
+const Info = ({setErrorMessage}) => {
+  const dispatch = useDispatch();
   const [currentPrice, setCurrentPrice] = useState(0);
+  const activePrice = useSelector(state => state.main.activePrice);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +40,7 @@ const Info = ({activePrice, setActivePrice, setErrorMessage}) => {
           {PRICE_BUTTONS.map(({name, id}) => (
             <Button
               key={id}
-              onClick={() => setActivePrice(id)}
+              onClick={() => dispatch(setActivePrice(id))}
               active={activePrice === id}
               variant="secondary"
             >

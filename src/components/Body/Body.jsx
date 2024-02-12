@@ -19,17 +19,20 @@ import { chartDataConverter } from "../../utils";
 import { currentTimestamp } from "../../utils/dates";
 import { getLowestPriceInterval } from "../../utils/buildIntervals";
 import { getAveragePrice } from "../../utils/math";
-
 import { ERROR_MESSAGE } from "./constants";
-
 import lodash from "lodash";
 import LoadingSpinner from "../Spinner";
+import { useSelector } from "react-redux";
 
-const Body = ({activeHour, from, until, setErrorMessage, setBestUntil}) => {
+const Body = ({setErrorMessage, setBestUntil}) => {
   const [marketPriceData, setMarketPriceData] = useState([]);
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
   const [loading, setLoading] = useState(false);
+  const activeHour = useSelector((state) => state.main.activeHour);
+  const from = useSelector((state) => state.date.from);
+  const until = useSelector((state) => state.date.until);
+
 
   const averagePrice = useMemo(() => {
     if (marketPriceData) {
