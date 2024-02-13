@@ -8,7 +8,7 @@ import { setActiveHour } from "../../services/stateService";
 
 const Intervals = () => {
   const dispatch = useDispatch();
-  const activeHour = useSelector((state) => state.main.activeHour)
+  const activeHour = useSelector((state) => state.mainSlice.activeHour)
   return (
     <Row>
       <Col>

@@ -8,12 +8,12 @@ import { getCurrentPrice } from "../../services/apiService";
 import { mwToKw, addVAT } from "../../utils/priceFormatter";
 import { ERROR_MESSAGE } from "./constants";
 import { useSelector, useDispatch } from "react-redux";
-import { setActivePrice } from "../../services/stateService";
+import { setActivePrice, setErrorMessage } from "../../services/stateService";
 
-const Info = ({setErrorMessage}) => {
+const Info = () => {
   const dispatch = useDispatch();
+  const activePrice = useSelector(state => state.mainSlice.activePrice);
   const [currentPrice, setCurrentPrice] = useState(0);
-  const activePrice = useSelector(state => state.main.activePrice);
 
   useEffect(() => {
     (async () => {
@@ -24,10 +24,10 @@ const Info = ({setErrorMessage}) => {
 
         setCurrentPrice(addVAT(mwToKw(data[0].price), "ee"));
       } catch {
-        setErrorMessage(ERROR_MESSAGE);
+        dispatch(setErrorMessage(ERROR_MESSAGE));
       }
     })();
-  }, [setErrorMessage])
+  }, [dispatch])
 
   return (
     <>

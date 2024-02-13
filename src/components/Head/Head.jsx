@@ -3,22 +3,24 @@ import Info from "./Info";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Button } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import {openSideBar} from "../../services/stateService";
 
-const Head = (props) => {
-  const {handleSideBarOpen, ...rest} = props;
+const Head = () => {
+  const dispatch = useDispatch();
   
   return (
     <>
       <Row>
         <Col>
           <Logo width={32} height={32} />
-          <Button variant="primary" onClick={handleSideBarOpen}>
+          <Button variant="primary" onClick={() => dispatch(openSideBar)}>
             Search
           </Button>
         </Col>
       </Row>
       <Row>
-        <Info {...rest} />
+        <Info />
       </Row>
     </>
   );
