@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setErrorMessage } from "./services/stateService";
 
 const ErrorModal = () => {
+  console.log('Error Model');
   const dispatch = useDispatch();
   const errorMessage = useSelector((state) => state.errorModalSlice.errorMessage);
   const closeErrorModal = () => dispatch(setErrorMessage(null));

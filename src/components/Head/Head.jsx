@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import {openSideBar} from "../../services/stateService";
 
 const Head = () => {
+  console.log('Head');
   const dispatch = useDispatch();
   
   return (
@@ -14,7 +15,7 @@ const Head = () => {
       <Row>
         <Col>
           <Logo width={32} height={32} />
-          <Button variant="primary" onClick={() => dispatch(openSideBar)}>
+          <Button variant="primary" onClick={() => dispatch(openSideBar())}>
             Search
           </Button>
         </Col>

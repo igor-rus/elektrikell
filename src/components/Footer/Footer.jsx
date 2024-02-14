@@ -4,6 +4,7 @@ import { DEFAULT_ACTIVE_PRICE_BUTTON_ID } from "../Head";
 import { useSelector } from "react-redux";
 
 const Footer = () => {
+  console.log('Footer');
   const activePrice = useSelector(state => state.mainSlice.activePrice);
 
   return (

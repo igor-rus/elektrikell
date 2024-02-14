@@ -26,6 +26,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBestUntil, setErrorMessage } from "../../services/stateService";
 
 const Body = () => {
+  console.log('Body');
+
   const [marketPriceData, setMarketPriceData] = useState([]);
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
@@ -34,7 +36,6 @@ const Body = () => {
   const from = useSelector((state) => state.date.from);
   const until = useSelector((state) => state.date.until);
   const dispatch = useDispatch();
-
 
   const averagePrice = useMemo(() => {
     if (marketPriceData) {

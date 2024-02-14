@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { NavDropdown } from "react-bootstrap";
 
 const Navigation = () => {
+  console.log('Navigation');
   return (
     <Navbar
       bg="light" data-bs-theme="light">
