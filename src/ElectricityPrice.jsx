@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import LeftSideBar from "./components/LeftSideBar";
 import { useDispatch } from "react-redux";
 import { setActiveHour } from "./services/stateService";
+import ElectricPriceProvider from "./components/contexts/ElectricPriceContext";
 
 function ElectricityPrice() {
   console.log('ElectricPrice');
@@ -16,17 +17,19 @@ function ElectricityPrice() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(params.hours) dispatch(setActiveHour(+params.hours))
+    if (params.hours) dispatch(setActiveHour(+params.hours))
   }, [dispatch, params.hours]);
 
   return (
-    <Container>
-      <LeftSideBar />
-      <Head />
-      <Body />
-      <Footer />
-      <ErrorModal />
-    </Container>
+    <ElectricPriceProvider>
+      <Container>
+        <LeftSideBar/>
+        <Head/>
+        <Body/>
+        <Footer/>
+        <ErrorModal/>
+      </Container>
+    </ElectricPriceProvider>
   );
 }
 
