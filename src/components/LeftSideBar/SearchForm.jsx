@@ -3,8 +3,9 @@ import Button from "react-bootstrap/Button";
 import {convertToApiDateFormat, convertToDatepickerFormat} from "../../utils/dates";
 import { useSelector, useDispatch } from "react-redux";
 import { setFrom, setUntil } from "../../services/stateService";
+import {closeSideBar} from "../../services/stateService";
 
-const SearchForm = ({handleClose}) => {
+const SearchForm = () => {
   const dispatch = useDispatch();
   const from = useSelector((state) => state.date.from);
   const until = useSelector((state) => state.date.until);
@@ -13,13 +14,9 @@ const SearchForm = ({handleClose}) => {
     e.preventDefault();
     const from = e.target.from.value;
     const until = e.target.until.value;
-    console.log(
-      `form values are: from ${from} until ${until}`
-    );
     dispatch(setFrom(convertToApiDateFormat(from)));
     dispatch(setUntil(convertToApiDateFormat(until)));
-
-    handleClose();
+    dispatch(closeSideBar);
   };
 
   return (

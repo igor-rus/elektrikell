@@ -22,16 +22,18 @@ import { getAveragePrice } from "../../utils/math";
 import { ERROR_MESSAGE } from "./constants";
 import lodash from "lodash";
 import LoadingSpinner from "../Spinner";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setBestUntil, setErrorMessage } from "../../services/stateService";
 
-const Body = ({setErrorMessage, setBestUntil}) => {
+const Body = () => {
   const [marketPriceData, setMarketPriceData] = useState([]);
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
   const [loading, setLoading] = useState(false);
-  const activeHour = useSelector((state) => state.main.activeHour);
+  const activeHour = useSelector((state) => state.mainSlice.activeHour);
   const from = useSelector((state) => state.date.from);
   const until = useSelector((state) => state.date.until);
+  const dispatch = useDispatch();
 
 
   const averagePrice = useMemo(() => {
@@ -63,10 +65,10 @@ const Body = ({setErrorMessage, setBestUntil}) => {
       setMarketPriceData(priceData);
     })
     .catch(() => {
-        setErrorMessage(ERROR_MESSAGE)
+        dispatch(setErrorMessage(ERROR_MESSAGE));
     })
     .finally(() => setLoading(false));
-  }, [from, until, setErrorMessage]);
+  }, [from, until, dispatch]);
 
 
   useEffect(() => {
@@ -75,10 +77,10 @@ const Body = ({setErrorMessage, setBestUntil}) => {
     if (lowPriceIntervals) {
       setX1(lowPriceIntervals[0].index);
       setX2(lodash.last(lowPriceIntervals).index + 1);
-      setBestUntil(lowPriceIntervals[0].timestamp)
+      dispatch(setBestUntil(lowPriceIntervals[0].timestamp));
     }
 
-  }, [activeHour, marketPriceData, setBestUntil]);
+  }, [activeHour, dispatch, marketPriceData]);
 
   return (
     <Row>

@@ -5,10 +5,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Intervals from "./Intervals";
 import Countdown from "react-countdown";
+import { useSelector } from "react-redux";
 
-const TargetLow = (props) => {
+const TargetLow = () => {
   const [nightConsumption, setNightConsumption] = useState(false);
-  const { bestUntil } = props;
+  const bestUntil = useSelector((state) => state.feasibleConsumptionTimeslotSlice.bestUntil);
 
   return (
     <>
@@ -26,7 +27,7 @@ const TargetLow = (props) => {
       </Row>
       <Row>
         <Col>
-          <Intervals {...props} />
+          <Intervals />
         </Col>
       </Row>
       <Row>
