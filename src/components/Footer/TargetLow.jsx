@@ -8,6 +8,7 @@ import Countdown from "react-countdown";
 import { useSelector } from "react-redux";
 
 const TargetLow = () => {
+  console.log('Target Low');
   const [nightConsumption, setNightConsumption] = useState(false);
   const bestUntil = useSelector((state) => state.feasibleConsumptionTimeslotSlice.bestUntil);
 

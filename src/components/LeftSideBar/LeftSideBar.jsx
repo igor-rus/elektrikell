@@ -4,11 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeSideBar } from "../../services/stateService";
 
 const LeftSideBar = () => {
+  console.log('Left SideBar');
   const showSideBar = useSelector((state) => state.leftSideBarSlice.showSideBar)
   const dispatch = useDispatch();
 
   return (
-      <Offcanvas show={showSideBar} onHide={() => dispatch(closeSideBar)}>
+      <Offcanvas show={showSideBar} onHide={() => dispatch(closeSideBar())}>
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Search by dates</Offcanvas.Title>
         </Offcanvas.Header>

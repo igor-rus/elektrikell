@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setActivePrice, setErrorMessage } from "../../services/stateService";
 
 const Info = () => {
+  console.log('Info');
   const dispatch = useDispatch();
   const activePrice = useSelector(state => state.mainSlice.activePrice);
   const [currentPrice, setCurrentPrice] = useState(0);

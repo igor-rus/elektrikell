@@ -4,6 +4,7 @@ import About from "./components/About";
 import Navigation from "./Navigation";
 
 export const App = () => {
+  console.log('App');
   return (
     <>
       <Navigation/>

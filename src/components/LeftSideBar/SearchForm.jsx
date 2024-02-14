@@ -6,6 +6,7 @@ import { setFrom, setUntil } from "../../services/stateService";
 import {closeSideBar} from "../../services/stateService";
 
 const SearchForm = () => {
+  console.log('Search Form');
   const dispatch = useDispatch();
   const from = useSelector((state) => state.date.from);
   const until = useSelector((state) => state.date.until);

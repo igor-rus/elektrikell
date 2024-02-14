@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { setActiveHour } from "./services/stateService";
 
 function ElectricityPrice() {
+  console.log('ElectricPrice');
   const params = useParams();
   const dispatch = useDispatch();
 
