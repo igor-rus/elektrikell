@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -9,10 +9,13 @@ import { mwToKw, addVAT } from "../../utils/priceFormatter";
 import { ERROR_MESSAGE } from "./constants";
 import { useSelector, useDispatch } from "react-redux";
 import { setActivePrice, setErrorMessage } from "../../services/stateService";
+import { ElectricPriceContext } from "../contexts/ElectricPriceContext";
 
 const Info = () => {
   console.log('Info');
   const dispatch = useDispatch();
+  const { values } = useContext(ElectricPriceContext);
+  console.log(values.averagePrice);
   const activePrice = useSelector(state => state.mainSlice.activePrice);
   const [currentPrice, setCurrentPrice] = useState(0);
 

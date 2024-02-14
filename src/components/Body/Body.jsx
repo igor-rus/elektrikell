@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -24,6 +24,7 @@ import lodash from "lodash";
 import LoadingSpinner from "../Spinner";
 import { useDispatch, useSelector } from "react-redux";
 import { setBestUntil, setErrorMessage } from "../../services/stateService";
+import { ElectricPriceContext } from "../contexts/ElectricPriceContext";
 
 const Body = () => {
   console.log('Body');
@@ -32,17 +33,12 @@ const Body = () => {
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
   const [loading, setLoading] = useState(false);
+  const { actions, values } = useContext(ElectricPriceContext);
+
   const activeHour = useSelector((state) => state.mainSlice.activeHour);
   const from = useSelector((state) => state.date.from);
   const until = useSelector((state) => state.date.until);
   const dispatch = useDispatch();
-
-  const averagePrice = useMemo(() => {
-    if (marketPriceData) {
-      return getAveragePrice(marketPriceData)
-    }
-  }, [marketPriceData]);
-
 
   const renderDot = useCallback((line) => {
     const {
@@ -64,12 +60,13 @@ const Body = () => {
 
       const priceData = chartDataConverter(data.ee);
       setMarketPriceData(priceData);
+      actions.setAveragePrice(getAveragePrice(priceData));
     })
     .catch(() => {
         dispatch(setErrorMessage(ERROR_MESSAGE));
     })
     .finally(() => setLoading(false));
-  }, [from, until, dispatch]);
+  }, [from, until, dispatch, actions]);
 
 
   useEffect(() => {
@@ -94,7 +91,7 @@ const Body = () => {
               <YAxis/>
               <Tooltip/>
               <Line type="stepAfter" dataKey="price" stroke="#8884d8" dot={renderDot}/>
-              <ReferenceLine y={averagePrice} stroke="red" strokeDasharray="3 3"/>
+              <ReferenceLine y={values.averagePrice} stroke="red" strokeDasharray="3 3"/>
               <ReferenceArea x1={x1} x2={x2} stroke="green" strokeOpacity={0.1}/>
             </LineChart>
           </ResponsiveContainer>)
