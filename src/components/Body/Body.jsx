@@ -33,7 +33,7 @@ const Body = () => {
   const [x1, setX1] = useState(0);
   const [x2, setX2] = useState(0);
   const [loading, setLoading] = useState(false);
-  const { actions, values } = useContext(ElectricPriceContext);
+  const { actions: { setAveragePrice }, values } = useContext(ElectricPriceContext);
 
   const activeHour = useSelector((state) => state.mainSlice.activeHour);
   const from = useSelector((state) => state.date.from);
@@ -60,13 +60,13 @@ const Body = () => {
 
       const priceData = chartDataConverter(data.ee);
       setMarketPriceData(priceData);
-      actions.setAveragePrice(getAveragePrice(priceData));
+      setAveragePrice(getAveragePrice(priceData));
     })
     .catch(() => {
         dispatch(setErrorMessage(ERROR_MESSAGE));
     })
     .finally(() => setLoading(false));
-  }, [from, until, dispatch, actions]);
+  }, [from, until, dispatch, setAveragePrice]);
 
 
   useEffect(() => {
