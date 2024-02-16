@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/elektrikell/static/css/main.b78446a0.css",
-    "main.js": "/elektrikell/static/js/main.d495f624.js",
+    "main.js": "/elektrikell/static/js/main.b35bd49b.js",
     "static/media/profile_picture.webp": "/elektrikell/static/media/profile_picture.7ed0fdc8d654382776b4.webp",
     "static/media/nordea.jpg": "/elektrikell/static/media/nordea.7afbe1b112ea412c43af.jpg",
     "static/media/osom.webp": "/elektrikell/static/media/osom.f35a71a221ea9ceece9d.webp",
     "index.html": "/elektrikell/index.html",
     "main.b78446a0.css.map": "/elektrikell/static/css/main.b78446a0.css.map",
-    "main.d495f624.js.map": "/elektrikell/static/js/main.d495f624.js.map"
+    "main.b35bd49b.js.map": "/elektrikell/static/js/main.b35bd49b.js.map"
   },
   "entrypoints": [
     "static/css/main.b78446a0.css",
-    "static/js/main.d495f624.js"
+    "static/js/main.b35bd49b.js"
   ]
 }
