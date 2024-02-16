@@ -1,9 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Badge from 'react-bootstrap/Badge';
-import { PRICE_BUTTONS, BADGES } from "./constants";
+import { PRICE_BUTTONS} from "./constants";
 import { getCurrentPrice } from "../../services/apiService";
 import { mwToKw, addVAT } from "../../utils/priceFormatter";
 import { ERROR_MESSAGE } from "./constants";
@@ -11,13 +10,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { setActivePrice, setErrorMessage } from "../../services/stateService";
 import { ElectricPriceContext } from "../contexts/ElectricPriceContext";
 
+import BadgePrice from "./BadgePrice";
+
 const Info = () => {
   console.log('Info');
   const dispatch = useDispatch();
-  const { values } = useContext(ElectricPriceContext);
-  console.log(values.averagePrice);
   const activePrice = useSelector(state => state.mainSlice.activePrice);
-  const [currentPrice, setCurrentPrice] = useState(0);
+  const {values, actions} = useContext(ElectricPriceContext);
 
   useEffect(() => {
     (async () => {
@@ -26,18 +25,18 @@ const Info = () => {
 
         if (!success) throw new Error();
 
-        setCurrentPrice(addVAT(mwToKw(data[0].price), "ee"));
+        actions.setCurrentPrice(addVAT(mwToKw(data[0].price), "ee"));
       } catch {
         dispatch(setErrorMessage(ERROR_MESSAGE));
       }
     })();
-  }, [dispatch])
+  }, [actions, dispatch])
 
   return (
     <>
       <Col>
         <div>The current price of electricity is</div>
-        <Badge bg={BADGES[0].name}>{BADGES[0].id}</Badge>
+        <BadgePrice {...values}/>
       </Col>
       <Col>
         <ButtonGroup>
@@ -54,7 +53,7 @@ const Info = () => {
         </ButtonGroup>
       </Col>
       <Col className="text-end">
-        <h2>{currentPrice}</h2>
+        <h2>{values.currentPrice}</h2>
         <div>cent / kilowatt-hour</div>
       </Col>
     </>
